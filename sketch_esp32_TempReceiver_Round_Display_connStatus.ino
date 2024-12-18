@@ -51,22 +51,6 @@ void OnDataRecv(const uint8_t * mac, const uint8_t *incomingData, int len) {
 }
  
 
-/*
-// callback when data is sent
-void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
-  char macStr[18];  
-  snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
-           mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  // Serial.print(macStr);
-  Serial.print(" send status:\t");
-  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Connected" : "Not Connected");
-  String ConnectionStatus = (status == ESP_NOW_SEND_SUCCESS ? "Connected" : "Not Connected");
-  
-Serial.println(ConnectionStatus);
-}
-*/
-
-
 
 void setup() {
   // Initialize Serial Monitor
@@ -102,12 +86,7 @@ gfx->setCursor(42, 155);
 gfx->setTextColor(RED);
 gfx->println("Red:   T > 89");
 
-delay(5000);
-
-
-
-
-
+delay(2000);
 
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
@@ -128,8 +107,6 @@ if (esp_now_init() != ESP_OK) {
     Serial.println("Failed to add peer");
     return;
   }
-
-
 
 
   // Init ESP-NOW
@@ -161,9 +138,9 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
 
   delay(2000);
 
+  //gfx->setTextColor(WHITE);
 
 }
-
 
 
 void loop() {
@@ -173,7 +150,9 @@ void loop() {
 
 test.x = random(0,20);
   esp_err_t result = esp_now_send(0, (uint8_t *) &test, sizeof(test_struct));
-  
+
+
+  delay(2000);
 
   if ((myData.c == 0)) {
   Serial.println("Connecting");
@@ -208,9 +187,10 @@ if (myData.c > 89) {
   gfx->setTextColor(RED);
   }
 
-delay(10);
+//delay(1000);
 
-gfx->flush();
+//gfx->flush();
+gfx->fillScreen(BLACK);
 gfx->setTextSize(2);
 gfx->setCursor(62, 54);
 gfx->println("Motor temp");
@@ -220,9 +200,7 @@ gfx->print(myData.c,1);
 gfx->setTextSize(2);
 gfx->println(" o");
 
-
-delay(2000);
-
+delay(500);
 
 }
 }
